@@ -7,11 +7,11 @@ import {
 
 const form = useForm({
     title: '',
-    content: false,
+    content: '',
 });
 
 const submit = () => {
-    form.post(route('login'), {
+    form.post(route('post.store'), {
         onFinish: () => form.reset('title', 'content'),
     });
 };
@@ -25,19 +25,28 @@ const submit = () => {
                 Create post
             </h1>
             <div>
-                <form class="space-y-3">
+                <form class="space-y-3" @submit.prevent="submit">
                     <input
                         type="text"
                         placeholder="Title"
                         v-model="form.title"
                     >
+                    <p
+                        class="text-sm text-red-600"
+                        v-if="form.errors.title">{{form.errors.title}}
+                    </p>
                     <textarea
                         placeholder="Content"
                         v-model="form.content"
                     ></textarea>
+                    <p
+                        class="text-sm text-red-600"
+                        v-if="form.errors.content">{{form.errors.content}}
+                    </p>
                     <div>
                         <button
                             type="submit"
+                            :disabled="form.processing"
                             class="btn-default"
                         >
                             Create
