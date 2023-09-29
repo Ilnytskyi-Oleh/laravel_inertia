@@ -1,18 +1,19 @@
 <script setup>
 import {
     Head,
-    Link,
-    useForm,
+    useForm, usePage,
 } from "@inertiajs/vue3";
 
+const { post, flash } = defineProps({post:Object, flash: Object})
+
 const form = useForm({
-    title: '',
-    content: '',
+    title: post.title,
+    content: post.content,
 });
 
 const submit = () => {
-    form.post(route('post.store'), {
-        onFinish: () => form.reset('title', 'content'),
+    form.patch(route('post.update', post.id), {
+        // onSuccess: (res) => form.reset('title', 'content'),
     });
 };
 </script>
@@ -22,8 +23,9 @@ const submit = () => {
         <Head title="Create post"/>
         <div class="w-96 mx-auto">
             <h1 class="text-lg mb-4">
-                Create post
+                Update post
             </h1>
+            <div v-if="flash.message">{{flash.message}}</div>
             <div>
                 <form class="space-y-3 max-w-min" @submit.prevent="submit">
                     <input
@@ -49,7 +51,7 @@ const submit = () => {
                             :disabled="form.processing"
                             class="btn-default"
                         >
-                            Create
+                            Update
                         </button>
                     </div>
                 </form>

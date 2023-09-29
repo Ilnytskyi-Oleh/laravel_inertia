@@ -35,8 +35,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/post', [\App\Http\Controllers\Post\PostController::class, 'index'])->name('post.index');
-Route::get('/post/create', [\App\Http\Controllers\Post\PostController::class, 'create'])->name('post.create');
-Route::post('/post', [\App\Http\Controllers\Post\PostController::class, 'store'])->name('post.store');
+Route::get('/posts', [\App\Http\Controllers\Post\PostController::class, 'index'])->name('post.index');
+Route::get('/posts/create', [\App\Http\Controllers\Post\PostController::class, 'create'])->name('post.create');
+Route::post('/posts', [\App\Http\Controllers\Post\PostController::class, 'store'])->name('post.store');
+Route::delete('/posts/{post}', [\App\Http\Controllers\Post\PostController::class, 'delete'])->name('post.delete');
+Route::get('/posts/{post}', [\App\Http\Controllers\Post\PostController::class, 'show'])->name('post.show');
+Route::get('/posts/{post}/edit', [\App\Http\Controllers\Post\PostController::class, 'edit'])->name('post.edit');
+Route::patch('/posts/{post}/edit', [\App\Http\Controllers\Post\PostController::class, 'update'])->name('post.update');
 
 require __DIR__.'/auth.php';
